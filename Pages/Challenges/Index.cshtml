@@ -1,0 +1,67 @@
+@page
+@model PCM_357.Pages.Challenges.IndexModel
+@{ ViewData["Title"] = "Sàn Đấu Pickleball"; }
+
+<h1>Sàn Đấu Pickleball (Challenges)</h1>
+<p class="text-muted">Tham gia các kèo đấu và giải đấu để nâng cao trình độ (và kiếm thưởng!)</p>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="text-primary mt-4">🔥 Đang diễn ra / Mở đăng ký</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var item in Model.ActiveChallenges)
+            {
+                <div class="col">
+                    <div class="card h-100 border-primary">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between">
+                            <strong>@item.Type</strong>
+                            <span class="badge bg-light text-primary">@item.Status</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>
+                            <p class="card-text">
+                                <strong>Chế độ:</strong> @item.GameMode<br />
+                                <strong>Phí tham gia:</strong> @item.EntryFee.ToString("N0") đ<br />
+                                <strong>Thưởng (PrizePool):</strong> <span class="text-success fw-bold">@item.PrizePool.ToString("N0") đ</span>
+                            </p>
+                            
+                            @if(item.GameMode == PCM_357.Entities.GameMode.TeamBattle) {
+                                <div class="progress mb-2" style="height: 25px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="@item.CurrentScore_TeamA">Team A: @item.CurrentScore_TeamA</div>
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="@item.CurrentScore_TeamB">Team B: @item.CurrentScore_TeamB</div>
+                                </div>
+                                <small class="text-muted">Target Wins: @item.Config_TargetWins</small>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <h3 class="text-secondary mt-5">🏁 Đã kết thúc</h3>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Tên giải</th>
+                    <th>Chế độ</th>
+                    <th>Tổng thưởng</th>
+                    <th>Ngày kết thúc</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.FinishedChallenges)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.GameMode</td>
+                        <td>@item.PrizePool.ToString("N0") đ</td>
+                        <td>@item.EndDate?.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

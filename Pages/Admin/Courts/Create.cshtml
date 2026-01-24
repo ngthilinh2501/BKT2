@@ -1,0 +1,52 @@
+@page
+@model PCM_357.Pages.Admin.Courts.CreateModel
+@{ ViewData["Title"] = "Tạo Sân Mới"; }
+
+<h1>Tạo Sân Mới</h1>
+<hr />
+<div class="row justify-content-center py-4">
+    <div class="col-lg-6">
+        <div class="card shadow-lg border-0 rounded-lg">
+            <div class="card-header bg-primary text-white text-center py-3 rounded-top">
+                <h3 class="mb-0 fw-bold">Thêm Sân Pickleball Mới</h3>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger shadow-sm"></div>
+                    
+                    <div class="mb-4">
+                        <label asp-for="Court.Name" class="form-label fw-bold opacity-75 small text-uppercase">Tên Sân Bãi</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-geo-alt-fill text-primary"></i></span>
+                            <input asp-for="Court.Name" class="form-control form-control-lg bg-light border-start-0 ps-0" placeholder="Ví dụ: Sân A1" />
+                        </div>
+                        <span asp-validation-for="Court.Name" class="text-danger small ms-2"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Court.Description" class="form-label fw-bold opacity-75 small text-uppercase">Mô tả chi tiết</label>
+                        <textarea asp-for="Court.Description" class="form-control bg-light" rows="4" placeholder="Nhập mô tả về sân (loại sân, vị trí, tiện ích)..."></textarea>
+                        <span asp-validation-for="Court.Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 mb-4 border border-light">
+                        <div class="form-check form-switch ps-5">
+                            <input class="form-check-input scale-125" asp-for="Court.IsActive" id="activeSwitch" style="transform: scale(1.3); margin-left: -2.5em;" checked />
+                            <label class="form-check-label fw-bold ms-2" for="activeSwitch">Kích hoạt ngay lập tức?</label>
+                        </div>
+                        <small class="text-muted d-block mt-1 ps-2">Sân sẽ hiển thị cho hội viên đặt ngay sau khi tạo.</small>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                        <a asp-page="Index" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-arrow-left"></i> Quay lại
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+                            <i class="bi bi-plus-circle"></i> Tạo Sân Mới
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

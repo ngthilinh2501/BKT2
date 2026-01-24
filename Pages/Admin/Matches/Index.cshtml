@@ -1,0 +1,71 @@
+@page
+@model PCM_357.Pages.Admin.Matches.IndexModel
+@{ ViewData["Title"] = "Quản lý Giải đấu"; }
+
+<h1>Quản lý Trận đấu (Admin)</h1>
+<p class="text-danger">Lưu ý: Xóa trận đấu sẽ không tự động hoàn tác điểm Rank đã cộng.</p>
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Ngày</th>
+            <th>Player 1</th>
+            <th>Player 2</th>
+            <th>Kết quả</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Matches)
+        {
+            <tr>
+                <td>@item.Date.ToString("dd/MM/yyyy")</td>
+                <td>@item.Team1_Player1?.FullName</td>
+                <td>@item.Team2_Player1?.FullName</td>
+                <td>@item.WinningSide</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.Id">
+                        Xóa
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+    </tbody>
+</table>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Xác nhận Xóa Trận Đấu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa Trận đấu này không?</p>
+                <p class="text-danger fw-bold"><i class="bi bi-exclamation-triangle"></i> Hành động này sẽ xóa dữ liệu trận đấu nhưng KHÔNG hoàn tác điểm Rank đã cộng!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <form method="post" asp-page-handler="Delete" id="deleteForm">
+                    <input type="hidden" name="id" id="deleteId" value="" />
+                    <button type="submit" class="btn btn-danger">Xóa Vĩnh Viễn</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var inputId = deleteModal.querySelector('#deleteId');
+            inputId.value = id;
+        })
+    </script>
+}

@@ -1,0 +1,35 @@
+@page
+@model PCM_357.Pages.Admin.Members.DeleteModel
+
+@{
+    ViewData["Title"] = "Xóa Hội viên";
+}
+
+<h1>Xóa Hội viên</h1>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<h3>Bạn có chắc chắn muốn xóa hội viên này?</h3>
+<div>
+    <h4>@Model.Member.FullName</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Member.Email</dd>
+        <dt class="col-sm-2">Rank (DUPR)</dt>
+        <dd class="col-sm-10">@Model.Member.RankLevel.ToString("0.00")</dd>
+        <dt class="col-sm-2">Ngày tham gia</dt>
+        <dd class="col-sm-10">@Model.Member.JoinDate.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-2">Trạng thái</dt>
+        <dd class="col-sm-10">@(Model.Member.IsActive ? "Active" : "Inactive")</dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Member.Id" />
+        <input type="submit" value="Xác nhận Xóa" class="btn btn-danger" /> |
+        <a asp-page="./Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

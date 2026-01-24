@@ -1,0 +1,59 @@
+@page
+@model PCM_357.Pages.Challenges.DetailsModel
+@{ ViewData["Title"] = "Chi tiết Sàn đấu"; }
+
+<div>
+    <h4>@Model.Challenge.Title</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Trạng thái</dt>
+        <dd class="col-sm-10">@Model.Challenge.Status</dd>
+        <dt class="col-sm-2">Game Mode</dt>
+        <dd class="col-sm-10">@Model.Challenge.GameMode</dd>
+        <dt class="col-sm-2">Prize Pool</dt>
+        <dd class="col-sm-10 text-success fw-bold">@Model.Challenge.PrizePool.ToString("N0") đ</dd>
+    </dl>
+</div>
+
+@if (Model.Challenge.GameMode == PCM_357.Entities.GameMode.TeamBattle)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card border-danger mb-3">
+                <div class="card-header bg-danger text-white">
+                    TEAM A (Score: @Model.Challenge.CurrentScore_TeamA)
+                </div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var p in Model.Participants.Where(p => p.Team == PCM_357.Entities.ParticipantTeam.TeamA))
+                    {
+                        <li class="list-group-item">@p.Member.FullName <span class="badge bg-secondary">Rank: @p.Member.RankLevel.ToString("0.0")</span></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+             <div class="card border-info mb-3">
+                <div class="card-header bg-info text-white">
+                    TEAM B (Score: @Model.Challenge.CurrentScore_TeamB)
+                </div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var p in Model.Participants.Where(p => p.Team == PCM_357.Entities.ParticipantTeam.TeamB))
+                    {
+                        <li class="list-group-item">@p.Member.FullName <span class="badge bg-secondary">Rank: @p.Member.RankLevel.ToString("0.0")</span></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <h5>Danh sách tham gia</h5>
+    <ul>
+    @foreach(var p in Model.Participants) {
+        <li>@p.Member.FullName</li>
+    }
+    </ul>
+}
+
+<a asp-page="./Index">Quay lại danh sách</a>

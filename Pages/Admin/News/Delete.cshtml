@@ -1,0 +1,35 @@
+@page
+@model PCM_357.Pages.Admin.News.DeleteModel
+@{ ViewData["Title"] = "Xóa Tin"; }
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0 rounded-lg">
+            <div class="card-header bg-danger text-white text-center py-3 rounded-top">
+                <h3 class="mb-0 fw-bold"><i class="bi bi-trash-fill"></i> Xác nhận Xóa Tin</h3>
+            </div>
+            <div class="card-body p-4 text-center">
+                <i class="bi bi-exclamation-circle text-danger display-1 mb-3"></i>
+                <h4 class="mb-4">Bạn có chắc chắn muốn xóa tin này?</h4>
+                
+                <div class="alert alert-light border shadow-sm text-start mb-4">
+                    <h5 class="fw-bold text-dark">@Model.News.Title</h5>
+                    <small class="text-muted d-block mb-2">@Model.News.CreatedDate.ToString("dd/MM/yyyy HH:mm")</small>
+                    <p class="mb-0 text-secondary text-truncate">@Model.News.Content</p>
+                </div>
+
+                <p class="text-danger fw-bold mb-4">Hành động này không thể hoàn tác!</p>
+
+                <form method="post" class="d-flex justify-content-center gap-3">
+                    <input type="hidden" asp-for="News.Id" />
+                    <a asp-page="./Index" class="btn btn-outline-secondary px-4">
+                        <i class="bi bi-arrow-left"></i> Quay lại
+                    </a>
+                    <button type="submit" class="btn btn-danger px-4 shadow-sm">
+                        <i class="bi bi-trash"></i> Xóa Vĩnh Viễn
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

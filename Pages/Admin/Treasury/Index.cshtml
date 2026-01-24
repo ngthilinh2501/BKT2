@@ -1,0 +1,131 @@
+@page
+@model PCM_357.Pages.Admin.Treasury.IndexModel
+@{ ViewData["Title"] = "Quản lý Tài chính"; }
+
+<div class="container-fluid px-lg-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="font-extrabold mb-2">Quản lý Tài chính</h2>
+            <p class="text-muted mb-0">Theo dõi thu chi và quản lý quỹ CLB</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-page="./Categories/Index" class="btn btn-outline-primary">
+                <i class="bi bi-list-ul"></i> Danh Mục
+            </a>
+            <a asp-page="./Categories/Create" class="btn btn-outline-secondary">
+                <i class="bi bi-plus-circle"></i> Thêm Danh Mục
+            </a>
+            <a asp-page="Create" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Ghi Thu/Chi
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="premium-card gradient-hero text-white text-center p-5 no-hover">
+                <div class="stat-label text-white opacity-75">TỔNG QUỸ CLB</div>
+                <div class="stat-value text-white mb-3">
+                    @Model.TotalFund.ToString("N0")<span class="text-xl ms-1">đ</span>
+                </div>
+                <small class="opacity-75">
+                    <i class="bi bi-clock me-1"></i> Cập nhật lúc: @DateTime.Now.ToString("HH:mm")
+                </small>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="premium-card p-5 h-100">
+                @if (Model.TotalFund >= 0)
+                {
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="stat-icon success" style="margin: 0;">
+                            <i class="bi bi-shield-check-fill"></i>
+                        </div>
+                        <h4 class="font-bold text-success mb-0">Tài chính an toàn</h4>
+                    </div>
+                    <p class="text-muted mb-4">Mọi hoạt động thu chi đang diễn ra theo đúng kế hoạch.</p>
+                    <div class="progress" style="height: 10px; border-radius: var(--radius-full);">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="stat-icon danger" style="margin: 0;">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <h4 class="font-bold text-danger mb-0">Cảnh báo Thâm hụt</h4>
+                    </div>
+                    <p class="text-muted mb-4">Quỹ hiện tại đang âm. Vui lòng kiểm tra lại các khoản chi tiêu.</p>
+                    <div class="progress" style="height: 10px; border-radius: var(--radius-full);">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction History Section -->
+    <div class="premium-card p-4">
+        <div class="card-header mb-4">
+            <h3 class="card-title">Lịch sử Giao dịch</h3>
+            <p class="card-subtitle">Danh sách tất cả các giao dịch thu chi</p>
+        </div>
+        
+        @if (Model.Transactions.Any())
+        {
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Danh mục</th>
+                            <th>Nội dung</th>
+                            <th class="text-end">Số tiền</th>
+                            <th class="text-end">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Transactions)
+                        {
+                            var isIncome = item.Category.Type == PCM_357.Entities.TransactionType.Thu;
+                            <tr>
+                                <td class="font-semibold">@item.Date.ToString("dd/MM HH:mm")</td>
+                                <td>
+                                    <span class="badge @(isIncome ? "badge-success" : "badge-warning")">
+                                        @item.Category.Name
+                                    </span>
+                                </td>
+                                <td class="text-muted">@item.Description</td>
+                                <td class="text-end font-bold @(isIncome ? "text-success" : "text-danger")">
+                                    @(isIncome ? "+" : "-")@item.Amount.ToString("N0")đ
+                                </td>
+                                <td class="text-end">
+                                    <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm me-1">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="bi bi-receipt empty-state-icon"></i>
+                <div class="empty-state-title">Chưa có giao dịch</div>
+                <p class="empty-state-text">Chưa có giao dịch thu chi nào được ghi nhận</p>
+                <a asp-page="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i> Thêm giao dịch đầu tiên
+                </a>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,71 @@
+@page
+@model PCM_357.Pages.Bookings.CreateModel
+@{ ViewData["Title"] = "Đặt Sân"; }
+
+<h1>Đặt Sân</h1>
+<hr />
+<div class="row justify-content-center py-5">
+    <div class="col-lg-6">
+        <!-- Validation Summary -->
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger shadow-sm mb-4 icon-link-hover"></div>
+
+        <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+            <div class="card-header bg-gradient bg-primary text-white text-center py-4">
+                <h2 class="mb-1 fw-bold"><i class="bi bi-calendar-check-fill me-2"></i>Đặt Sân Mới</h2>
+                <p class="mb-0 opacity-75 small">Chọn giờ chơi và sân yêu thích của bạn</p>
+            </div>
+            <div class="card-body p-4 p-md-5 bg-white">
+                <form method="post">
+                    
+                    <div class="mb-4">
+                        <label asp-for="Booking.CourtId" class="form-label fw-bold text-uppercase small text-muted letter-spacing-1">Chọn Sân</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-light border-end-0 text-primary"><i class="bi bi-trophy-fill"></i></span>
+                            <select asp-for="Booking.CourtId" class="form-select bg-light border-start-0 ps-0 fw-bold" asp-items="Model.CourtList"></select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="Booking.StartTime" class="form-label fw-bold text-uppercase small text-muted letter-spacing-1">Bắt đầu</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-clock text-success"></i></span>
+                                <input asp-for="Booking.StartTime" class="form-control bg-light border-start-0 ps-0" type="datetime-local" />
+                            </div>
+                            <span asp-validation-for="Booking.StartTime" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Booking.EndTime" class="form-label fw-bold text-uppercase small text-muted letter-spacing-1">Kết thúc</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-clock-history text-danger"></i></span>
+                                <input asp-for="Booking.EndTime" class="form-control bg-light border-start-0 ps-0" type="datetime-local" />
+                            </div>
+                            <span asp-validation-for="Booking.EndTime" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <label asp-for="Booking.Notes" class="form-label fw-bold text-uppercase small text-muted letter-spacing-1">Ghi chú (Tùy chọn)</label>
+                        <textarea asp-for="Booking.Notes" class="form-control bg-light rounded-3" rows="3" placeholder="Yêu cầu đặc biệt (ví dụ: Cần thuê vợt, nước uống)..."></textarea>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg py-3 shadow-sm rounded-pill hover-scale">
+                            <span class="fw-bold">Xác Nhận Đặt Sân</span> <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                        <a asp-page="./Index" class="btn btn-link text-decoration-none text-muted mt-2">
+                            <i class="bi bi-arrow-counterclockwise"></i> Xem lịch sử đặt sân của tôi
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .letter-spacing-1 { letter-spacing: 1px; }
+    .bg-gradient { background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); }
+    .hover-scale { transition: transform 0.2s; }
+    .hover-scale:hover { transform: translateY(-2px); }
+</style>

@@ -1,0 +1,45 @@
+@page
+@model PCM_357.Pages.Bookings.IndexModel
+@{ ViewData["Title"] = "Lịch sử Đặt sân"; }
+
+<h1>Lịch sử Đặt sân của tôi</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Đặt Sân Mới</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Sân</th>
+            <th>Thời gian Bắt đầu</th>
+            <th>Thời gian Kết thúc</th>
+            <th>Ghi chú</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.MyBookings != null)
+        {
+            @foreach (var item in Model.MyBookings)
+            {
+                <tr>
+                    <td>@item.Court?.Name</td>
+                    <td>@item.StartTime.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.EndTime.ToString("HH:mm")</td>
+                    <td>@item.Notes</td>
+                    <td>
+                        @if (item.Status == PCM_357.Entities.BookingStatus.Confirmed)
+                        {
+                            <span class="badge bg-success">Đã xác nhận</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@item.Status</span>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

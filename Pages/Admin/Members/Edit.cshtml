@@ -1,0 +1,78 @@
+@page
+@model PCM_357.Pages.Admin.Members.EditModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa Hội viên";
+}
+
+<h1>Chỉnh sửa Hội viên</h1>
+<h4>@Model.Member.FullName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Member.Id" />
+            
+            <div class="form-group mb-3">
+                <label asp-for="Member.FullName" class="control-label">Họ và Tên</label>
+                <input asp-for="Member.FullName" class="form-control" />
+                <span asp-validation-for="Member.FullName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="Member.Email" class="control-label">Email</label>
+                <input asp-for="Member.Email" class="form-control" />
+                <span asp-validation-for="Member.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Member.PhoneNumber" class="control-label">Số điện thoại</label>
+                <input asp-for="Member.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Member.PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Member.DateOfBirth" class="control-label">Ngày sinh</label>
+                <input asp-for="Member.DateOfBirth" class="form-control" type="date" />
+                <span asp-validation-for="Member.DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <!-- Rank is Read-Only -->
+            <div class="form-group mb-3">
+                <label class="control-label">Rank hiện tại (DUPR) - Chỉ đọc</label>
+                <input class="form-control" value="@Model.Member.RankLevel.ToString("0.00")" disabled readonly />
+                <small class="text-muted">Rank chỉ thay đổi khi tham gia thi đấu.</small>
+            </div>
+
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Member.IsActive" /> @Html.DisplayNameFor(model => model.Member.IsActive)
+                </label>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Phân quyền (Roles)</div>
+                <div class="card-body">
+                    @foreach (var role in Model.AvailableRoles)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="SelectedRoles" value="@role" 
+                                   @(Model.SelectedRoles.Contains(role) ? "checked" : "") />
+                            <label class="form-check-label">@role</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                <a asp-page="./Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

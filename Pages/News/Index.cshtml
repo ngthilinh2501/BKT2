@@ -1,0 +1,38 @@
+@page
+@model PCM_357.Pages.News.IndexModel
+@{ ViewData["Title"] = "Tin tức CLB"; }
+
+<div class="mb-4">
+    <h1 class="text-primary fw-bold">📰 Tin Tức & Sự Kiện</h1>
+    <p class="text-muted">Cập nhật những thông tin mới nhất từ CLB Vợt Thủ Phố Núi.</p>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    @foreach (var item in Model.NewsList)
+    {
+        <div class="col">
+            <div class="card h-100 @(item.IsPinned ? "border-primary" : "")">
+                <div class="card-body">
+                     @if (item.IsPinned)
+                     {
+                         <div class="mb-2"><span class="badge bg-primary">📌 Đáng chú ý</span></div>
+                     }
+                    <h5 class="card-title fw-bold">
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="text-decoration-none text-dark stretched-link">
+                            @item.Title
+                        </a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted small">
+                        📅 @item.CreatedDate.ToString("dd/MM/yyyy")
+                    </h6>
+                    <p class="card-text text-truncate-3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                        @item.Content
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 text-end">
+                    <small class="text-muted">Xem chi tiết &rarr;</small>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,84 @@
+@page
+@model PCM_357.Pages.MyProfile.IndexModel
+@{ ViewData["Title"] = "Hồ sơ của tôi"; }
+
+<h1>Hồ sơ Hội viên</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Member.Id" />
+            
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">
+                    Thông tin xếp hạng
+                </div>
+                <div class="card-body text-center">
+                    <h3>@Model.Member.RankLevel.ToString("0.00")</h3>
+                    <p class="text-muted">Rank DUPR</p>
+                    <div class="row">
+                         <div class="col-6">
+                             <strong>@Model.Member.WinMatches</strong><br />Thắng
+                         </div>
+                         <div class="col-6">
+                             <strong>@Model.Member.TotalMatches</strong><br />Tổng trận
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Member.FullName" class="control-label">Họ và Tên</label>
+                <input asp-for="Member.FullName" class="form-control" />
+                <span asp-validation-for="Member.FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Member.DateOfBirth" class="control-label">Ngày sinh</label>
+                <input asp-for="Member.DateOfBirth" class="form-control" type="date" id="dobInput" />
+                <span asp-validation-for="Member.DateOfBirth" class="text-danger"></span>
+                <span id="ageWarning" class="text-danger fw-bold" style="display:none;">⚠️ Cẩn thận chấn thương nhé! (Tuổi &lt; 10 hoặc &gt; 80)</span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Member.PhoneNumber" class="control-label">Số điện thoại</label>
+                <input asp-for="Member.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Member.PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Email</label>
+                <input class="form-control" value="@Model.Member.Email" disabled />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('dobInput').addEventListener('change', function() {
+            var dob = new Date(this.value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            
+            var warning = document.getElementById('ageWarning');
+            if (age < 10 || age > 80) {
+                warning.style.display = 'block';
+            } else {
+                warning.style.display = 'none';
+            }
+        });
+    </script>
+}

@@ -1,0 +1,91 @@
+@page
+@model PCM_357.Pages.Admin.Courts.IndexModel
+
+@{
+    ViewData["Title"] = "Quản lý Sân";
+}
+
+<h1>Quản lý Sân Pickleball</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Tạo Sân Mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên Sân</th>
+            <th>Mô tả</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Courts) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @if (item.IsActive)
+                {
+                    <span class="badge bg-success">Hoạt động</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Bảo trì / Đóng</span>
+                }
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-sm btn-info">Sửa</a>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCourtModal" data-id="@item.Id" data-name="@item.Name">Xóa</button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteCourtModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title fw-bold">Xác nhận Xóa</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-3">
+                     <i class="bi bi-exclamation-circle text-danger display-4"></i>
+                </div>
+                <p class="text-center fs-5">Bạn có chắc chắn muốn xóa Sân <strong id="deleteCourtName"></strong> này không?</p>
+                <p class="text-danger text-center fw-bold small">Hành động này không thể hoàn tác!</p>
+            </div>
+            <div class="modal-footer justify-content-center border-0 pb-4">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Hủy</button>
+                <form method="post" asp-page-handler="Delete">
+                    <input type="hidden" name="id" id="deleteCourtId" />
+                    <button type="submit" class="btn btn-danger px-4">Xóa Vĩnh Viễn</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var deleteCourtModal = document.getElementById('deleteCourtModal');
+        deleteCourtModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var name = button.getAttribute('data-name');
+            
+            var inputId = deleteCourtModal.querySelector('#deleteCourtId');
+            var nameSpan = deleteCourtModal.querySelector('#deleteCourtName');
+            
+            inputId.value = id;
+            nameSpan.textContent = name;
+        });
+    </script>
+}

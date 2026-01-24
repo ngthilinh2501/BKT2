@@ -1,0 +1,22 @@
+@page
+@model PCM_357.Pages.Admin.Courts.DeleteModel
+@{ ViewData["Title"] = "Xóa Sân"; }
+
+<h1>Xóa Sân</h1>
+<h3>Bạn có chắc muốn xóa sân này?</h3>
+<div>
+    <h4>@Model.Court.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Mô tả</dt>
+        <dd class="col-sm-10">@Model.Court.Description</dd>
+        <dt class="col-sm-2">Trạng thái</dt>
+        <dd class="col-sm-10">@Model.Court.IsActive</dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Court.Id" />
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+        <a asp-page="./Index">Quay lại</a>
+    </form>
+</div>

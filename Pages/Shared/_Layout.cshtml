@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Vợt Thủ Phố Núi</title>
+    <script type="importmap"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PCM_357.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Vợt Thủ Phố Núi</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Index">Trang chủ</a>
+                        </li>
+                        
+                        @if (User.IsInRole("Admin") || User.IsInRole("Treasurer"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                                    Quản trị
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><a class="dropdown-item" asp-page="/Admin/Members/Index">Hội viên</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Admin/Courts/Index">Sân bãi</a></li>
+                                    }
+                                    
+                                    <li><a class="dropdown-item" asp-page="/Admin/Treasury/Index">Tài chính</a></li>
+                                    
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><a class="dropdown-item" asp-page="/Admin/News/Index">Quản lý Tin</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Admin/Bookings/Index">Quản lý Đặt sân</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Admin/Matches/Index">Quản lý Trận đấu</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Admin/Challenges/Index">Quản lý Sàn đấu</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="activitiesDropdown" role="button" data-bs-toggle="dropdown">
+                                    Kèo đấu
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-page="/Challenges/Index">Sàn đấu (Kèo)</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Matches/MyMatches">Lịch sử đấu</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Bookings/Index">Đặt sân</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/News/Index">Tin tức</a>
+                        </li>
+
+                         @if (User.IsInRole("Admin") || User.IsInRole("Referee"))
+                        {
+                             <li class="nav-item">
+                                <a class="nav-link btn-premium fw-bold rounded-pill px-3 ms-lg-2" asp-page="/Matches/Create" style="font-size: 0.9rem;">Ghi Kết Quả</a>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    
+    <main role="main" class="flex-grow-1">
+        <div class="container pb-3">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-5" style="background: #ffffff; border-top: 3px solid; border-image: linear-gradient(135deg, #10b981 0%, #0ea5e9 100%) 1; color: #64748b;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h5 class="font-bold mb-3" style="background: linear-gradient(135deg, #10b981 0%, #0ea5e9 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Vợt Thủ Phố Núi</h5>
+                    <p class="text-sm mb-3 fw-semibold" style="color: #475569;">"Vui - Khỏe - Có Thưởng"</p>
+                    <p class="text-xs" style="color: #64748b;">Câu lạc bộ Pickleball hàng đầu với hệ thống quản lý hiện đại và chuyên nghiệp.</p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="font-semibold mb-3" style="color: #0f172a;">Liên Kết Nhanh</h6>
+                    <ul class="list-unstyled text-sm">
+                        <li class="mb-2">
+                            <a asp-page="/Index" class="text-decoration-none d-inline-flex align-items-center" style="color: #64748b;">
+                                <i class="bi bi-house-door me-2"></i>Trang chủ
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a asp-page="/News/Index" class="text-decoration-none d-inline-flex align-items-center" style="color: #64748b;">
+                                <i class="bi bi-newspaper me-2"></i>Tin tức
+                            </a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="mb-2">
+                                <a asp-page="/Bookings/Index" class="text-decoration-none d-inline-flex align-items-center" style="color: #64748b;">
+                                    <i class="bi bi-calendar-check me-2"></i>Đặt sân
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a asp-page="/Challenges/Index" class="text-decoration-none d-inline-flex align-items-center" style="color: #64748b;">
+                                    <i class="bi bi-trophy me-2"></i>Sàn đấu
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a asp-page="/Matches/MyMatches" class="text-decoration-none d-inline-flex align-items-center" style="color: #64748b;">
+                                    <i class="bi bi-clock-history me-2"></i>Lịch sử đấu
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="font-semibold mb-3" style="color: #0f172a;">Liên Hệ</h6>
+                    <ul class="list-unstyled text-sm">
+                        <li class="mb-2 d-flex align-items-start" style="color: #64748b;">
+                            <i class="bi bi-geo-alt me-2 mt-1"></i>
+                            <span>Phố Núi, Việt Nam</span>
+                        </li>
+                        <li class="mb-2 d-flex align-items-center" style="color: #64748b;">
+                            <i class="bi bi-envelope me-2"></i>
+                            <a href="mailto:contact@votthuphonui.vn" class="text-decoration-none" style="color: #64748b;">contact@votthuphonui.vn</a>
+                        </li>
+                        <li class="mb-2 d-flex align-items-center" style="color: #64748b;">
+                            <i class="bi bi-telephone me-2"></i>
+                            <a href="tel:+84123456789" class="text-decoration-none" style="color: #64748b;">+84 123 456 789</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: #e2e8f0;">
+            <div class="text-center text-xs" style="color: #94a3b8;">
+                <p class="mb-0">&copy; @DateTime.Now.Year Vợt Thủ Phố Núi. Được phát triển với <i class="bi bi-heart-fill" style="color: #ef4444;"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

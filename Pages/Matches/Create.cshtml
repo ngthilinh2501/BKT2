@@ -1,0 +1,118 @@
+@page
+@model PCM_357.Pages.Matches.CreateModel
+@{ ViewData["Title"] = "Ghi nhận Kết quả"; }
+
+<h1 class="mb-4 text-center">Ghi nhận Kết quả Trận đấu</h1>
+<hr />
+
+<div class="row justify-content-center pb-5"> <!-- Added padding bottom to prevent overlap -->
+    <div class="col-lg-10">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger shadow-sm"></div>
+            
+            <div class="card p-3 mb-4 shadow-sm">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Match.Date" class="control-label fw-bold">Thời gian</label>
+                        <input asp-for="Match.Date" class="form-control" type="datetime-local" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Match.MatchFormat" class="control-label fw-bold">Thể thức</label>
+                        <select asp-for="Match.MatchFormat" class="form-select" asp-items="Html.GetEnumSelectList<PCM_357.Entities.MatchFormat>()" id="matchFormat"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Team 1 -->
+                <div class="col-md-6">
+                    <div class="card mb-3 border-primary h-100">
+                        <div class="card-header bg-primary text-white text-center fw-bold">Team 1 (Đội A)</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">VĐV 1 (Chính)</label>
+                                <select asp-for="Match.Team1_Player1Id" class="form-select" asp-items="Model.MemberList"></select>
+                            </div>
+                            <div class="mb-3" id="team1_p2_box" style="display: none;">
+                                <label class="form-label">VĐV 2 (Đôi)</label>
+                                <select asp-for="Match.Team1_Player2Id" class="form-select" asp-items="Model.MemberList">
+                                    <option value="">-- Trống --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team 2 -->
+                <div class="col-md-6">
+                    <div class="card mb-3 border-danger h-100">
+                        <div class="card-header bg-danger text-white text-center fw-bold">Team 2 (Đội B)</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">VĐV 1 (Chính)</label>
+                                <select asp-for="Match.Team2_Player1Id" class="form-select" asp-items="Model.MemberList"></select>
+                            </div>
+                            <div class="mb-3" id="team2_p2_box" style="display: none;">
+                                <label class="form-label">VĐV 2 (Đôi)</label>
+                                <select asp-for="Match.Team2_Player2Id" class="form-select" asp-items="Model.MemberList">
+                                     <option value="">-- Trống --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 mb-4 shadow-sm bg-light">
+                <div class="row align-items-center">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <label asp-for="Match.WinningSide" class="control-label fw-bold">Kết quả chung cuộc</label>
+                        <select asp-for="Match.WinningSide" class="form-select form-select-lg">
+                            <option value="None">-- Chưa xác định --</option>
+                            <option value="Team1">Team 1 Thắng</option>
+                            <option value="Team2">Team 2 Thắng</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check form-switch fs-5">
+                            <input class="form-check-input" type="checkbox" asp-for="Match.IsRanked">
+                            <label class="form-check-label" asp-for="Match.IsRanked">Tính điểm hạng (Ranked)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <label asp-for="Match.ChallengeId" class="control-label fw-bold">Thuộc Kèo / Giải đấu</label>
+                    <select asp-for="Match.ChallengeId" class="form-select" asp-items="Model.ChallengeList">
+                        <option value="">-- Giao hữu (Không thuộc giải) --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+                <input type="submit" value="💾 Lưu Kết Quả" class="btn btn-primary btn-lg" />
+            </div>
+            
+            <div class="mt-5"></div> <!-- Spacer -->
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateUI() {
+            var format = document.getElementById("matchFormat").value;
+            // MatchFormat enum: Singles = 1, Doubles = 2
+            
+            if (format == "1") { // Singles
+                 document.getElementById("team1_p2_box").style.display = "none";
+                 document.getElementById("team2_p2_box").style.display = "none";
+            } else { // Doubles = 2
+                 document.getElementById("team1_p2_box").style.display = "block";
+                 document.getElementById("team2_p2_box").style.display = "block";
+            }
+        }
+        document.getElementById("matchFormat").addEventListener("change", updateUI);
+        updateUI();
+    </script>
+}
