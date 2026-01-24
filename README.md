@@ -60,4 +60,4 @@ dotnet run
 
 ## 👨‍💻 Tác Giả
 
-Project BKT2 - Phát triển bởi [Your Name]
+Project BKT2 - Phát triển bởi [Nguyễn Thị Linh]
