@@ -58,6 +58,18 @@ dotnet run
 
 4. Truy cập: `https://localhost:5001` hoặc `http://localhost:5000`
 
+
+## 🔑 Tài Khoản Test (Demo Accounts)
+
+Sử dụng các tài khoản sau để trải nghiệm các quyền hạn khác nhau trong hệ thống:
+
+| Role | Email | Password | Quyền Hạn |
+|------|-------|----------|-----------|
+| **Admin** | `admin@pcm.com` | `Admin@123` | Quản trị toàn bộ hệ thống (Members, Courts, Treasury...) |
+| **Treasurer** | `treasurer@pcm.com` | `Treasurer@123` | Quản lý tài chính, thu chi |
+| **Referee** | `referee@pcm.com` | `Referee@123` | Trọng tài, quản lý trận đấu |
+| **Member** | `member1@pcm.com` | `Member@123` | Đặt sân, tham gia giải đấu (Có sẵn từ member1 -> member6) |
+
 ## 👨‍💻 Tác Giả
 
-Project BKT2 - Phát triển bởi [Your Name]
+Project BKT2 - Phát triển bởi [Nguyễn Thị Linh]

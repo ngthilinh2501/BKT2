@@ -1,0 +1,8 @@
+[b|B]in/
+[o|O]bj/
+.vs/
+*.user
+*.lock.json
+*.swp
+*.suo
+.vscode/
