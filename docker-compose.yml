@@ -1,0 +1,27 @@
+services:
+  app:
+    build: .
+    image: pcm-app
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # Override the connection string to point to the 'db' service
+      - ConnectionStrings__DefaultConnection=Server=db;Database=PCM_357;User Id=sa;Password=YourStrong@Password;TrustServerCertificate=True;
+    depends_on:
+      - db
+    restart: on-failure
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Password
+    ports:
+      - "14333:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql/data
+
+volumes:
+  mssql-data:

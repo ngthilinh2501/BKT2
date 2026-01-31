@@ -58,6 +58,28 @@ dotnet run
 
 4. Truy cập: `https://localhost:5001` hoặc `http://localhost:5000`
 
+### Chạy với Docker (Khuyên dùng)
+
+Dự án đã được đóng gói sẵn với Docker Compose, bao gồm cả database SQL Server.
+
+1. **Khởi động**:
+   ```bash
+   docker-compose up -d --build
+   ```
+   Lệnh này sẽ build ứng dụng và khởi động cả web server lẫn database.
+
+2. **Dừng ứng dụng**:
+   ```bash
+   docker-compose down
+   ```
+
+3. **Xem log (nếu có lỗi)**:
+   ```bash
+   docker-compose logs -f
+   ```
+
+4. **Truy cập**: Mở trình duyệt tại `http://localhost:5000`
+
 
 ## 🔑 Tài Khoản Test (Demo Accounts)
 
